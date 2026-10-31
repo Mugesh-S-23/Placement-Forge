@@ -87,3 +87,14 @@ Unlike conventional coding platforms that cater strictly to Computer Science maj
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **AI Integration**: [@google/genai](https://www.npmjs.com/package/@google/genai) (`gemini-2.5-flash` / `gemini-3.8-flash`)
 - **Offline Resilience**: Instant heuristic mock fallbacks for all API routes if `GEMINI_API_KEY` is not configured.
+
+## Screenshots
+![Front Page](./public/screenshots/Front-page.png)
+
+![Command Center](./public/screenshots/Command-centre.png)
+
+![Study Materials](./public/screenshots/Study-materials.png)
+
+![Fogre Bot](./public/screenshots/Placementforge_Ai.png)
+
+![Calibration test](./public\screenshots\Calibiration-test.png)
