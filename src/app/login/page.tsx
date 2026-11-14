@@ -3,22 +3,26 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { TargetRole, ExperienceLevel } from '@/types';
 import { 
-  Compass, 
+  Sparkles, 
   Mail, 
   Lock, 
   User, 
   ArrowRight, 
   Zap, 
-  ShieldCheck, 
   CheckCircle2, 
   Eye, 
-  EyeOff 
+  EyeOff,
+  Compass,
+  Check,
+  HeartHandshake
 } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { loginUser, signupUser, setGuestUser } = useApp();
+  const { loginUser, signupUser, setGuestUser, user, setUser } = useApp();
 
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
   const [showPassword, setShowPassword] = useState(false);
@@ -30,9 +34,23 @@ export default function LoginPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Role Pill Selection
+  const [selectedRole, setSelectedRole] = useState<TargetRole>(user.targetRole || 'Full-Stack Web Dev');
+  
+  // Encouraging Zero-to-One toggle
+  const [isStartingFromZero, setIsStartingFromZero] = useState<boolean>(
+    user.experienceLevel ? user.experienceLevel.includes('Zero') : true
+  );
+
+  const rolePills: { id: TargetRole; label: string; icon: string }[] = [
+    { id: 'Full-Stack Web Dev', label: 'Full-Stack', icon: '💻' },
+    { id: 'Data Analyst & BI (SQL/Python)', label: 'Data Analyst', icon: '📊' },
+    { id: 'Software Development Engineer (Campus SDE)', label: 'Core Java / SDE', icon: '⚡' },
+    { id: 'QA & Automation Engineer', label: 'QA Testing', icon: '🧪' }
+  ];
+
   const handleInstantGuestDemo = () => {
     setGuestUser();
-    // After login, route directly to the Command Center dashboard!
     router.push('/dashboard');
   };
 
@@ -41,13 +59,22 @@ export default function LoginPage() {
     setErrorMsg('');
 
     if (!email.trim() || !password.trim()) {
-      setErrorMsg('Please provide your email and password.');
+      setErrorMsg('Please enter your email and password to continue.');
       return;
     }
 
+    // Save customized role and starting baseline state
+    setUser(prev => ({
+      ...prev,
+      targetRole: selectedRole,
+      experienceLevel: isStartingFromZero 
+        ? 'Starting from Zero (Beginner)' 
+        : 'Intermediate'
+    }));
+
     if (authMode === 'signup') {
       if (!name.trim()) {
-        setErrorMsg('Please enter your full name.');
+        setErrorMsg('Please enter your name.');
         return;
       }
       if (password !== confirmPassword) {
@@ -55,75 +82,77 @@ export default function LoginPage() {
         return;
       }
       signupUser(name, email, password);
-      // New signup goes to profile onboarding to select department, college, year, and target role!
-      router.push('/onboarding');
+      router.push('/dashboard');
     } else {
       loginUser(email, password);
-      // Returning sign in goes straight to the Command Center dashboard!
       router.push('/dashboard');
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8">
-      {/* Background subtle grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b08_1px,transparent_1px),linear-gradient(to_bottom,#1e293b08_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+    <div className="min-h-screen bg-[#fbfbfa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-col justify-center items-center p-4 sm:p-6 lg:p-8 transition-colors duration-200 relative">
+      
+      {/* Top Navigation & Theme Switcher */}
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-3">
+        <ThemeSwitcher />
+      </div>
 
-      <div className="w-full max-w-md relative z-10">
+      <div className="w-full max-w-lg relative z-10 space-y-6 my-6">
         
-        {/* Vibrant Header Branding */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 text-white mb-3 shadow-lg shadow-indigo-600/30">
-            <Compass className="w-7 h-7 stroke-[2.5]" />
+        {/* Welcoming Header */}
+        <div className="text-center space-y-2.5">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold">
+            <Compass className="w-3.5 h-3.5" />
+            <span>PlacementForge &bull; Student Companion</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-            <span className="placement-forge-brand">Placement Forge</span>
+
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+            Let's get you placement-ready, one day at a time.
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Zero-to-Offer Placement Operating System across All Engineering &amp; Campus Branches
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
+            A calm, step-by-step workspace designed for real college students. No overwhelming jargon, just 25 minutes of high-yield practice a day.
           </p>
         </div>
 
-        {/* Instant One-Click Demo Box for Judges & Fast Testing */}
-        <div className="mb-5 p-4 rounded-2xl bg-slate-900/90 border border-indigo-500/30 shadow-md">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 block">
-                Quick Evaluators &amp; Campus Demo
-              </span>
-              <p className="text-xs text-slate-300 mt-0.5">
-                Instant 1-click access to calibrated portal.
-              </p>
+        {/* 1-Click Fast Preview Pill Box */}
+        <div className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 flex items-center justify-between gap-3 shadow-xs tactile-card">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/80 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
+              <Zap className="w-4 h-4" />
             </div>
-            <button
-              type="button"
-              onClick={handleInstantGuestDemo}
-              className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-sm shrink-0"
-            >
-              <Zap className="w-3.5 h-3.5 text-amber-300" />
-              <span>1-Click Guest Demo</span>
-            </button>
+            <div>
+              <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-200">Just exploring the portal?</p>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400">Skip registration with pre-loaded sample student data</p>
+            </div>
           </div>
+
+          <button
+            type="button"
+            onClick={handleInstantGuestDemo}
+            className="px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 text-xs font-semibold transition-all shrink-0 cursor-pointer shadow-xs"
+          >
+            Instant Demo
+          </button>
         </div>
 
-        {/* Clean Authentication Card */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-7 shadow-xl backdrop-blur-md space-y-5">
+        {/* Main Authentication & Profile Box */}
+        <div className="bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-6 sm:p-7 shadow-xs space-y-5">
           
           {/* Sign In vs Sign Up Tabs */}
-          <div className="flex rounded-xl bg-slate-950 p-1 border border-slate-800">
+          <div className="flex rounded-xl bg-zinc-100 dark:bg-zinc-950 p-1 border border-zinc-200/80 dark:border-zinc-800 text-xs">
             <button
               type="button"
               onClick={() => {
                 setAuthMode('signin');
                 setErrorMsg('');
               }}
-              className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
+              className={`flex-1 py-2 rounded-lg font-semibold transition-all cursor-pointer ${
                 authMode === 'signin'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xs'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
               }`}
             >
-              Sign In
+              Sign In to Your Workspace
             </button>
             <button
               type="button"
@@ -131,140 +160,192 @@ export default function LoginPage() {
                 setAuthMode('signup');
                 setErrorMsg('');
               }}
-              className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
+              className={`flex-1 py-2 rounded-lg font-semibold transition-all cursor-pointer ${
                 authMode === 'signup'
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-xs'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
               }`}
             >
-              Create Account (Sign Up)
+              New Student (Sign Up)
             </button>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Quick Target Role Pill Buttons */}
+          <div className="space-y-2">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+              What campus role are you aiming for?
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {rolePills.map(r => {
+                const isSelected = selectedRole === r.id;
+                return (
+                  <button
+                    key={r.id}
+                    type="button"
+                    onClick={() => setSelectedRole(r.id)}
+                    className={`py-2 px-2.5 rounded-xl text-xs font-semibold border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border-indigo-400 dark:border-indigo-600 shadow-xs ring-1 ring-indigo-400/30'
+                        : 'bg-zinc-50 dark:bg-zinc-950/50 text-zinc-700 dark:text-zinc-300 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                    }`}
+                  >
+                    <span>{r.icon}</span>
+                    <span>{r.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Encouraging "Starting from Zero" Toggle */}
+          <div 
+            onClick={() => setIsStartingFromZero(!isStartingFromZero)}
+            className={`p-3.5 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-3 select-none ${
+              isStartingFromZero
+                ? 'bg-amber-50/70 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/80 text-amber-950 dark:text-amber-200'
+                : 'bg-zinc-50 dark:bg-zinc-950/40 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400'
+            }`}
+          >
+            <div className={`mt-0.5 w-4 h-4 rounded-md border flex items-center justify-center shrink-0 transition-colors ${
+              isStartingFromZero 
+                ? 'bg-amber-600 border-amber-600 text-white' 
+                : 'border-zinc-400 dark:border-zinc-600'
+            }`}>
+              {isStartingFromZero && <Check className="w-3 h-3 stroke-[2.5]" />}
+            </div>
+            <div className="space-y-0.5">
+              <span className="font-bold text-xs flex items-center gap-1.5">
+                🌱 I'm starting from zero
+                <span className="text-[10px] font-normal px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-900/60 text-amber-800 dark:text-amber-300">
+                  Recommended for beginners
+                </span>
+              </span>
+              <p className="text-[11px] leading-relaxed opacity-90">
+                Never coded much outside syllabus? That is completely normal! We start with simple everyday analogies before writing any code.
+              </p>
+            </div>
+          </div>
+
+          {/* Sign In / Sign Up Form Fields */}
+          <form onSubmit={handleSubmit} className="space-y-4 pt-1">
             
-            {/* Full Name for Sign Up */}
             {authMode === 'signup' && (
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                  Full Name
+                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+                  Your Full Name
                 </label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <User className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Arun Kumar"
-                    className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                   />
                 </div>
               </div>
             )}
 
-            {/* Email Address */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
-                College / Personal Email
+              <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
+                Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Mail className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="student@college.edu or email"
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
+                  placeholder="student@college.edu or personal email"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                 />
               </div>
             </div>
 
-            {/* Password */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <Lock className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-10 pr-10 py-2.5 text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(prev => !prev)}
-                  className="absolute right-3 top-3 text-slate-400 hover:text-slate-200"
+                  className="absolute right-3 top-3 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 cursor-pointer"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
 
-            {/* Confirm Password for Sign Up */}
             {authMode === 'signup' && (
               <div>
-                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
                   Confirm Password
                 </label>
                 <div className="relative">
-                  <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                  <Lock className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
+                    className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
                   />
                 </div>
               </div>
             )}
 
             {errorMsg && (
-              <p className="text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-lg border border-rose-500/20">
+              <p className="text-xs text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/30 p-3 rounded-xl border border-rose-200 dark:border-rose-800 font-medium">
                 {errorMsg}
               </p>
             )}
 
-            {/* Submit Button */}
             <button
               type="submit"
-              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold text-xs sm:text-sm transition-all shadow-md shadow-indigo-600/25 mt-2"
+              className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm transition-all shadow-sm hover:shadow-md cursor-pointer mt-2"
             >
-              <span>{authMode === 'signin' ? 'Sign In & Enter Command Center' : 'Create Account & Continue'}</span>
+              <span>{authMode === 'signin' ? 'Open My Workspace' : 'Create My Free Account'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
 
           </form>
 
-          {/* Alternate switch */}
-          <div className="text-center pt-2 border-t border-slate-800 text-xs text-slate-400">
+          {/* Switch tab helper */}
+          <div className="text-center pt-2 border-t border-zinc-100 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
             {authMode === 'signin' ? (
               <span>
-                New student?{' '}
+                First time here?{' '}
                 <button
                   type="button"
                   onClick={() => setAuthMode('signup')}
-                  className="text-indigo-400 hover:text-indigo-300 font-semibold underline"
+                  className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline cursor-pointer"
                 >
-                  Create free account
+                  Create an account
                 </button>
               </span>
             ) : (
               <span>
-                Already have an account?{' '}
+                Already practicing?{' '}
                 <button
                   type="button"
                   onClick={() => setAuthMode('signin')}
-                  className="text-indigo-400 hover:text-indigo-300 font-semibold underline"
+                  className="text-indigo-600 dark:text-indigo-400 font-semibold hover:underline cursor-pointer"
                 >
-                  Sign In here
+                  Sign in
                 </button>
               </span>
             )}
@@ -272,10 +353,10 @@ export default function LoginPage() {
 
         </div>
 
-        {/* Scalability note across departments */}
-        <div className="text-center mt-5 text-xs text-slate-400 flex items-center justify-center gap-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span>Supports ECE, EEE, Mech, Civil, Biotech, CSE &amp; Non-CS Switchers</span>
+        {/* Friendly footer reassuring students */}
+        <div className="text-center text-xs text-zinc-500 dark:text-zinc-400 flex items-center justify-center gap-1.5 font-medium">
+          <HeartHandshake className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          <span>Tailored for ECE, Mechanical, Civil, Biotech &amp; CS students preparing for campus placements.</span>
         </div>
 
       </div>

@@ -9,9 +9,9 @@ import {
   User, 
   CheckCircle2, 
   X, 
-  BookmarkCheck,
-  ExternalLink,
-  Volume2
+  BookmarkCheck, 
+  Volume2,
+  Sparkles
 } from 'lucide-react';
 
 export default function VideoVaultPage() {
@@ -31,34 +31,35 @@ export default function VideoVaultPage() {
     : MASTERCLASSES.filter(item => item.category === selectedCategory);
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="w-full space-y-7 animate-in fade-in duration-300">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 pb-5 border-b border-zinc-200/80 dark:border-zinc-800">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase font-bold tracking-wider text-indigo-400">
-              Curated Video Vault
+          <div className="flex items-center gap-2 mb-1.5">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800/60 text-[11px] font-semibold text-indigo-700 dark:text-indigo-300">
+              <Sparkles className="w-3 h-3 text-indigo-500" />
+              Senior Alumni Sessions &bull; Real Interview Breakdowns
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-            Campus Masterclasses &amp; Video Briefings
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Alumni Masterclasses &amp; Video Briefings
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
-            Distilled 15-to-28 minute engineering briefings from alumni across CS and non-CS departments. Click to watch and study executive takeaways.
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-2xl leading-relaxed">
+            Distilled 15-to-28 minute engineering briefings from seniors across CS and non-CS branches. Learn what worked, common mistakes, and how they cleared rounds.
           </p>
         </div>
 
         {/* Category Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 shrink-0">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`text-xs px-3 py-1.5 rounded-xl border font-bold transition-all shrink-0 ${
+              className={`text-xs px-3.5 py-2 rounded-xl border font-medium transition-all shrink-0 cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
-                  : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200'
+                  ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
               }`}
             >
               {cat}
@@ -68,70 +69,70 @@ export default function VideoVaultPage() {
       </div>
 
       {/* 3-Column Video Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((item) => (
           <div
             key={item.id}
-            className="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between hover:border-slate-700 transition-all group"
+            className="tactile-card bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-xs flex flex-col justify-between transition-all group"
           >
             {/* Thumbnail Header area */}
             <div>
               <div 
                 onClick={() => setActiveVideo(item)}
-                className="relative h-44 bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/40 p-4 flex flex-col justify-between cursor-pointer overflow-hidden border-b border-slate-800 group-hover:from-slate-900 transition-all"
+                className="relative h-44 bg-gradient-to-br from-zinc-900 via-indigo-950 to-zinc-900 p-4 flex flex-col justify-between cursor-pointer overflow-hidden border-b border-zinc-200 dark:border-zinc-800 transition-all"
               >
                 {/* Badges */}
                 <div className="flex items-center justify-between gap-2 relative z-10">
-                  <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded ${
+                  <span className={`text-[10px] uppercase font-semibold px-2.5 py-0.5 rounded-md ${
                     item.category.includes('Alumni')
-                      ? 'bg-amber-500/10 text-amber-300 border border-amber-500/20'
+                      ? 'bg-amber-500/20 text-amber-200 border border-amber-500/30'
                       : item.category.includes('Core')
-                      ? 'bg-cyan-500/10 text-cyan-300 border border-cyan-500/20'
+                      ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-500/30'
                       : item.category.includes('HR')
-                      ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
-                      : 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20'
+                      ? 'bg-emerald-500/20 text-emerald-200 border border-emerald-500/30'
+                      : 'bg-indigo-500/30 text-indigo-200 border border-indigo-500/50'
                   }`}>
                     {item.category}
                   </span>
 
-                  <span className="text-[11px] text-slate-300 bg-slate-900/80 px-2 py-0.5 rounded flex items-center gap-1 border border-slate-700">
-                    <Clock className="w-3 h-3 text-slate-400" />
+                  <span className="text-[11px] text-zinc-200 bg-black/50 backdrop-blur-xs px-2.5 py-0.5 rounded-md flex items-center gap-1 border border-white/10 font-medium">
+                    <Clock className="w-3 h-3 text-zinc-300" />
                     {item.duration}
                   </span>
                 </div>
 
                 {/* Centered Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-indigo-500 transition-all">
+                  <div className="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:bg-indigo-500 transition-all">
                     <Play className="w-5 h-5 ml-0.5 fill-current" />
                   </div>
                 </div>
 
                 {/* Speaker info bar at bottom of thumbnail */}
-                <div className="relative z-10 text-[11px] text-slate-300 flex items-center gap-2">
-                  <User className="w-3.5 h-3.5 text-indigo-400" />
-                  <span className="font-bold text-slate-200">{item.speaker}</span>
-                  <span className="text-slate-400 truncate">({item.speakerRole})</span>
+                <div className="relative z-10 text-[11px] text-zinc-200 flex items-center gap-2">
+                  <User className="w-3.5 h-3.5 text-amber-400" />
+                  <span className="font-semibold text-white">{item.speaker}</span>
+                  <span className="text-zinc-300 truncate">({item.speakerRole})</span>
                 </div>
               </div>
 
               {/* Title & Description */}
-              <div className="p-4 sm:p-5 space-y-3">
-                <h3 className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-indigo-300 transition-colors leading-snug">
+              <div className="p-5 sm:p-6 space-y-3">
+                <h3 className="text-sm sm:text-base font-semibold text-zinc-900 dark:text-zinc-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug">
                   {item.title}
                 </h3>
-                <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">
+                <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed line-clamp-2">
                   {item.summary}
                 </p>
 
                 {/* Key Takeaways Preview */}
-                <div className="pt-2 border-t border-slate-800 space-y-1.5">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">
-                    Core Briefing Takeaways:
+                <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800 space-y-2">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-500 dark:text-zinc-400 block">
+                    Core Senior Takeaways:
                   </span>
                   {item.takeaways.slice(0, 2).map((takeaway, i) => (
-                    <div key={i} className="flex items-start gap-2 text-[11px] text-slate-300">
-                      <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-2 text-xs text-zinc-700 dark:text-zinc-300">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                       <span className="line-clamp-1 leading-snug">{takeaway}</span>
                     </div>
                   ))}
@@ -140,11 +141,11 @@ export default function VideoVaultPage() {
             </div>
 
             {/* Bottom Action */}
-            <div className="p-4 pt-0">
+            <div className="p-5 sm:p-6 pt-0">
               <button
                 type="button"
                 onClick={() => setActiveVideo(item)}
-                className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-all shadow-sm"
+                className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium transition-all shadow-xs cursor-pointer"
               >
                 <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                 <span>Play Masterclass Video</span>
@@ -159,26 +160,26 @@ export default function VideoVaultPage() {
       {activeVideo && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
           <div 
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
             onClick={() => setActiveVideo(null)}
           />
 
-          <div className="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl z-10 flex flex-col max-h-[92vh]">
+          <div className="relative w-full max-w-4xl bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-2xl z-10 flex flex-col max-h-[92vh]">
             
             {/* Modal Header */}
-            <div className="p-3.5 sm:p-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/80">
+            <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between bg-zinc-50 dark:bg-zinc-950/80">
               <div className="overflow-hidden pr-3">
-                <span className="text-[10px] uppercase font-bold text-indigo-400 block">
+                <span className="text-[10px] uppercase font-semibold text-indigo-600 dark:text-indigo-400 block">
                   {activeVideo.category} &bull; {activeVideo.duration}
                 </span>
-                <h3 className="text-xs sm:text-base font-bold text-slate-100 truncate">
+                <h3 className="text-sm sm:text-base font-bold text-zinc-900 dark:text-zinc-100 truncate">
                   {activeVideo.title}
                 </h3>
               </div>
 
               <button
                 onClick={() => setActiveVideo(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors shrink-0"
+                className="p-1.5 rounded-xl text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-200 dark:hover:bg-zinc-800 transition-colors shrink-0 cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -197,25 +198,25 @@ export default function VideoVaultPage() {
             </div>
 
             {/* Modal Takeaways & Transcript Highlights */}
-            <div className="p-4 sm:p-5 overflow-y-auto space-y-3 bg-slate-900/95 flex-1">
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-3.5 bg-white dark:bg-zinc-900 flex-1">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center gap-1.5">
-                  <BookmarkCheck className="w-4 h-4 text-emerald-400" />
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-800 dark:text-zinc-200 flex items-center gap-1.5">
+                  <BookmarkCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   Key Takeaways &amp; Executive Summary
                 </h4>
-                <span className="text-xs text-slate-400">
-                  Speaker: <strong className="text-slate-200">{activeVideo.speaker}</strong> ({activeVideo.speakerRole})
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  Speaker: <strong className="text-zinc-800 dark:text-zinc-200 font-semibold">{activeVideo.speaker}</strong> ({activeVideo.speakerRole})
                 </span>
               </div>
 
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
                 {activeVideo.summary}
               </p>
 
-              <div className="space-y-2 pt-2 border-t border-slate-800">
+              <div className="space-y-2.5 pt-3 border-t border-zinc-100 dark:border-zinc-800">
                 {activeVideo.takeaways.map((point, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                  <div key={idx} className="flex items-start gap-2.5 text-xs text-zinc-700 dark:text-zinc-200">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{point}</span>
                   </div>
                 ))}
@@ -223,16 +224,16 @@ export default function VideoVaultPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-3 bg-slate-950/90 border-t border-slate-800 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1.5 text-slate-400">
-                <Volume2 className="w-4 h-4 text-indigo-400" />
+            <div className="p-4 bg-zinc-50 dark:bg-zinc-950/90 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between text-xs">
+              <div className="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400">
+                <Volume2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 <span>Audio briefing synchronized with placement notes</span>
               </div>
 
               <button
                 type="button"
                 onClick={() => setActiveVideo(null)}
-                className="px-4 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition-colors"
+                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors cursor-pointer"
               >
                 Close Video
               </button>

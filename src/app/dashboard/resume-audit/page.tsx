@@ -15,9 +15,8 @@ import {
   Target, 
   Copy, 
   Check, 
-  RefreshCcw,
-  ShieldCheck,
-  Code
+  ShieldCheck, 
+  HeartHandshake
 } from 'lucide-react';
 
 interface ChecklistItem {
@@ -143,7 +142,6 @@ export default function ResumeAuditPage() {
   };
 
   const handleConfirmAndProceed = () => {
-    // Save updated profile
     const professionalPoints = CHECKLIST_ITEMS
       .filter(i => selectedIds.includes(i.id))
       .map(i => i.convertedProfessionalPoint);
@@ -160,47 +158,47 @@ export default function ResumeAuditPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="w-full space-y-6 animate-in fade-in duration-200">
       
-      {/* Page Title */}
+      {/* Humanized Page Title as requested */}
       <div>
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-xs uppercase font-semibold tracking-wider text-indigo-400">
-            Intake Step 1 of 2
+          <span className="text-xs uppercase font-bold tracking-wider text-indigo-600 dark:text-indigo-400">
+            Intake &bull; Practical Foundations
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-          Reverse Resume &amp; Skills Extractor
+        <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+          Don't have a resume yet? Tell us what you've built
         </h1>
-        <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-3xl">
-          Whether you have a traditional PDF resume or are starting with zero formal credentials, PlacementForge establishes your Day-0 foundational baseline with complete respect.
+        <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-1 max-w-3xl leading-relaxed">
+          Whether you have a traditional PDF or are starting with just college lab experiments, we extract what you've actually touched and turn it into recruiter-ready bullet points.
         </p>
       </div>
 
       {/* Two Clean Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2">
+      <div className="flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-3">
         <button
           onClick={() => setActiveTab('reverse')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
             activeTab === 'reverse'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+              ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-xs'
+              : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50'
           }`}
         >
-          <Sparkles className="w-4 h-4 text-indigo-200" />
-          <span>No Resume? (Reverse Resume Form)</span>
+          <Sparkles className="w-4 h-4 text-amber-500" />
+          <span>I'm Starting Fresh (Checklist Intake)</span>
         </button>
 
         <button
           onClick={() => setActiveTab('upload')}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
             activeTab === 'upload'
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+              ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-xs'
+              : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50'
           }`}
         >
-          <UploadCloud className="w-4 h-4 text-indigo-200" />
-          <span>Upload / Paste Resume</span>
+          <UploadCloud className="w-4 h-4 text-indigo-500" />
+          <span>I Already Have a Resume (Upload / Paste)</span>
         </button>
       </div>
 
@@ -208,45 +206,45 @@ export default function ResumeAuditPage() {
 
       {/* TAB B: Reverse Resume (Zero-Skill Intake) */}
       {activeTab === 'reverse' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           
           {/* Left: Interactive Checklist (7 cols) */}
-          <div className="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-5">
+          <div className="lg:col-span-7 bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xs">
             <div>
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <CheckSquare className="w-4 h-4 text-indigo-400" />
-                Tick What You Have Touched in College So Far
+              <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                <CheckSquare className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                Tick whatever you have touched in college so far
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                Do not stress over mastery! Even 1 lab experiment counts. We transform these into clear foundational engineering capabilities.
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 leading-relaxed">
+                Even 1 lab experiment or group mini-project counts! We frame these as foundational engineering experience.
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               {CHECKLIST_ITEMS.map((item) => {
                 const isChecked = selectedIds.includes(item.id);
                 return (
                   <div
                     key={item.id}
                     onClick={() => toggleCheck(item)}
-                    className={`p-3.5 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-3 select-none ${
+                    className={`p-3 rounded-xl border text-xs cursor-pointer transition-all flex items-start gap-3 select-none ${
                       isChecked
-                        ? 'bg-indigo-600/10 border-indigo-500/50 text-slate-200'
-                        : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-indigo-50/70 dark:bg-indigo-950/30 border-indigo-300 dark:border-indigo-800 text-zinc-900 dark:text-zinc-100 shadow-2xs'
+                        : 'bg-zinc-50 dark:bg-zinc-950/50 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-zinc-300 dark:hover:border-zinc-700'
                     }`}
                   >
                     <div className="mt-0.5 shrink-0">
                       {isChecked ? (
-                        <CheckCircle2 className="w-4 h-4 text-indigo-400" />
+                        <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                       ) : (
-                        <Square className="w-4 h-4 text-slate-400" />
+                        <Square className="w-4 h-4 text-zinc-400" />
                       )}
                     </div>
                     <div>
-                      <span className="text-[10px] uppercase font-semibold text-slate-400 block mb-0.5">
+                      <span className="text-[10px] uppercase font-bold text-zinc-500 dark:text-zinc-400 block mb-0.5">
                         {item.category}
                       </span>
-                      <span className="text-xs font-medium text-slate-200 leading-snug">
+                      <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 leading-snug">
                         {item.label}
                       </span>
                     </div>
@@ -256,50 +254,50 @@ export default function ResumeAuditPage() {
             </div>
           </div>
 
-          {/* Right: Real-time Converted Day-0 Foundational Profile (5 cols) */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4">
+          {/* Right: Real-time Converted Day-0 Recruiter Profile (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col justify-between bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xs">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-400" />
-                  <h3 className="text-sm font-bold text-slate-100">
-                    Day-0 Recruiter Profile
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    Recruiter-Ready Points
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={handleCopyProfile}
-                  className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-lg bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium transition-colors cursor-pointer"
                 >
-                  {isCopied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                  <span>{isCopied ? 'Copied!' : 'Copy Bullets'}</span>
+                  {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{isCopied ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
-              <p className="text-xs text-slate-400">
-                How corporate campus recruiters and interviewers read your foundational coursework:
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                How campus interviewers translate your coursework into engineering capabilities:
               </p>
             </div>
 
             {/* Generated Points List */}
-            <div className="bg-slate-950/80 border border-slate-800/80 rounded-xl p-4 flex-1 space-y-3 overflow-y-auto max-h-[380px]">
+            <div className="bg-zinc-50 dark:bg-zinc-950/80 border border-zinc-200/80 dark:border-zinc-800 rounded-xl p-3.5 flex-1 space-y-2.5 overflow-y-auto max-h-[380px]">
               {selectedIds.length === 0 ? (
-                <div className="text-center py-8 text-xs text-slate-400">
-                  Select at least one foundational capability on the left to generate your Day-0 points.
+                <div className="text-center py-6 text-xs text-zinc-500">
+                  Select at least one capability on the left to generate your points.
                 </div>
               ) : (
                 CHECKLIST_ITEMS.filter(i => selectedIds.includes(i.id)).map((item) => (
-                  <div key={item.id} className="flex items-start gap-2.5 text-xs text-slate-200">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-                    <p className="leading-relaxed">{item.convertedProfessionalPoint}</p>
+                  <div key={item.id} className="flex items-start gap-2.5 text-xs text-zinc-700 dark:text-zinc-300">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1.5 shrink-0" />
+                    <p className="leading-relaxed font-medium">{item.convertedProfessionalPoint}</p>
                   </div>
                 ))
               )}
             </div>
 
-            <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-300 flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 shrink-0 text-emerald-400" />
+            <div className="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/80 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+              <HeartHandshake className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
               <span>
-                {selectedIds.length} capabilities extracted. Your baseline is established at <strong>20%</strong> without penalization.
+                {selectedIds.length} capabilities identified. Starting baseline set at <strong>20%</strong> without penalization.
               </span>
             </div>
           </div>
@@ -309,94 +307,93 @@ export default function ResumeAuditPage() {
 
       {/* TAB A: Upload / Paste Resume */}
       {activeTab === 'upload' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           
-          <div className="lg:col-span-7 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4">
+          <div className="lg:col-span-7 bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xs">
             <div>
-              <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-indigo-400" />
-                Upload Resume PDF or Paste Text
+              <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                Upload PDF Resume or Paste Text
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
-                PlacementForge parses your technical keywords against the required competencies for <strong>{user.targetRole}</strong>.
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 leading-relaxed">
+                We'll highlight keywords matching the expectations for <strong>{user.targetRole}</strong>.
               </p>
             </div>
 
             {/* Drag & Drop File Upload Box */}
-            <div className="border-2 border-dashed border-slate-700 hover:border-indigo-500 rounded-xl p-6 text-center transition-colors bg-slate-950/40 cursor-pointer relative">
+            <div className="border-2 border-dashed border-zinc-300 dark:border-zinc-700 hover:border-indigo-500 rounded-xl p-6 text-center transition-colors bg-zinc-50 dark:bg-zinc-950/40 cursor-pointer relative">
               <input
                 type="file"
                 accept=".pdf,.doc,.docx,.txt"
                 onChange={handleFileUpload}
                 className="absolute inset-0 opacity-0 cursor-pointer"
               />
-              <UploadCloud className="w-8 h-8 text-indigo-400 mx-auto mb-2" />
-              <p className="text-xs font-semibold text-slate-200">
-                {fileName ? `Loaded: ${fileName}` : "Click to browse or drop resume file"}
+              <UploadCloud className="w-7 h-7 text-indigo-600 dark:text-indigo-400 mx-auto mb-1.5" />
+              <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
+                {fileName ? `Loaded: ${fileName}` : "Click to select or drop your resume"}
               </p>
-              <p className="text-[11px] text-slate-400 mt-1">
-                Supports PDF, DOCX, or TXT (Max 5MB)
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+                Supports PDF, DOCX, or TXT
               </p>
             </div>
 
             {/* Paste Plain Text Box */}
             <div>
-              <label htmlFor="resume-text" className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-1.5">
+              <label htmlFor="resume-text" className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1.5">
                 Or Paste Resume Content Directly:
               </label>
               <textarea
                 id="resume-text"
-                rows={6}
+                rows={5}
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
                 placeholder="Paste your education, projects, and skills here..."
-                className="w-full bg-slate-950 border border-slate-700/80 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500 font-mono"
+                className="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 text-xs text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-mono leading-relaxed"
               />
             </div>
           </div>
 
-          {/* Right: Target Role Keyword Match & Gap Audit */}
-          <div className="lg:col-span-5 bg-slate-900/80 border border-slate-800 rounded-2xl p-5 sm:p-6 space-y-4 flex flex-col justify-between">
+          {/* Right: Target Role Match & Highlights */}
+          <div className="lg:col-span-5 bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-5 sm:p-6 space-y-3.5 flex flex-col justify-between shadow-xs">
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                  <Target className="w-4 h-4 text-indigo-400" />
-                  Target Role Match Audit
+              <div className="flex items-center justify-between mb-1.5">
+                <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                  <Target className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                  Role Competency Match
                 </h3>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 font-semibold">
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-semibold border border-indigo-200 dark:border-indigo-800">
                   68% Match
                 </span>
               </div>
-              <p className="text-xs text-slate-400">
-                Evaluated against campus expectations for <strong>{user.targetRole}</strong>:
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Evaluated against typical campus drive expectations for <strong>{user.targetRole}</strong>:
               </p>
             </div>
 
-            {/* Match details */}
-            <div className="space-y-3">
-              <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1.5">
-                <span className="text-[11px] uppercase font-semibold text-emerald-400 flex items-center gap-1.5">
+            <div className="space-y-2.5">
+              <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/70 border border-zinc-200/80 dark:border-zinc-800 space-y-1">
+                <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   Detected Strengths
                 </span>
-                <p className="text-xs text-slate-300">
-                  C / Java syntax, HTML &amp; CSS forms, Relational DB query awareness, Academic project presentation.
+                <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  C / Java syntax, HTML forms, Basic SQL queries, Academic project presentation.
                 </p>
               </div>
 
-              <div className="p-3 rounded-xl bg-slate-950/70 border border-slate-800 space-y-1.5">
-                <span className="text-[11px] uppercase font-semibold text-amber-400 flex items-center gap-1.5">
+              <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/70 border border-zinc-200/80 dark:border-zinc-800 space-y-1">
+                <span className="text-xs font-bold text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
                   <AlertCircle className="w-3.5 h-3.5" />
                   Recommended Foundations to Add
                 </span>
-                <p className="text-xs text-slate-300">
-                  In-Memory Caching mental model, REST API status codes, Two-Pointer technique, Structured STAR project stories.
+                <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  Two-Pointer technique, REST API basics, Structured STAR project stories.
                 </p>
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-950/60 border border-slate-800 text-xs text-slate-400">
-              💡 Our 14-Day Micro-Sprint covers every single missing pillar above in 25-minute digestible daily steps.
+            <div className="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-500 dark:text-zinc-400">
+              💡 Our 14-Day Micro-Sprint covers every missing pillar above in 25-minute digestible steps.
             </div>
           </div>
 
@@ -404,20 +401,20 @@ export default function ResumeAuditPage() {
       )}
 
       {/* Bottom Sticky Action Bar */}
-      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg backdrop-blur-md">
-        <div className="flex items-center gap-2 text-xs text-slate-300">
-          <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
+        <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-300 font-medium">
+          <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
           <span>
-            Ready to calibrate! Next: 3 quick logic &amp; flow questions to establish your Readiness Radar.
+            Profile ready! Next: 3 quick logic &amp; flow questions to calibrate your Readiness Profile.
           </span>
         </div>
 
         <button
           type="button"
           onClick={handleConfirmAndProceed}
-          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold transition-all shadow-md shadow-indigo-600/20 shrink-0"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold transition-all shadow-xs cursor-pointer"
         >
-          <span>Confirm Profile &amp; Calibrate Baseline</span>
+          <span>Confirm &amp; Take 3-Min Check</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

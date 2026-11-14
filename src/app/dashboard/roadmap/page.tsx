@@ -11,10 +11,8 @@ import {
   Clock, 
   ArrowRight, 
   Sparkles, 
-  TrendingUp, 
-  ChevronRight,
-  GraduationCap,
-  ShieldCheck,
+  ChevronRight, 
+  GraduationCap, 
   Target
 } from 'lucide-react';
 
@@ -36,44 +34,46 @@ export default function RoadmapPage() {
     updateTargetRole(role);
   };
 
+  const completedCount = sprintDays.filter(d => d.status === 'completed').length;
+
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="w-full space-y-6 animate-in fade-in duration-200">
       
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase font-bold tracking-wider text-indigo-400">
-              Personalized 14-Day Micro-Sprints
+            <span className="text-xs uppercase font-bold tracking-wider text-indigo-600 dark:text-indigo-400">
+              14-Day Micro-Sprints
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-100 tracking-tight">
-            14-Day Placement Sprint Plan
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight">
+            14-Day Placement Roadmap
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
-            1 concept + 1 sandboxed code practice + 1 verified checkpoint each day = +10% velocity boost. Structured for maximum retention without burnout.
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 mt-0.5 max-w-2xl leading-relaxed">
+            1 plain-English concept + 1 quick practice challenge + 1 mentor checkpoint daily. Designed to fit naturally around your college schedule without burnout.
           </p>
         </div>
 
         {/* Study Materials Shortcut Banner */}
         <Link
           href="/dashboard/study-materials"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/25 border border-emerald-500/30 text-emerald-300 text-xs font-bold transition-all shrink-0"
+          className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 text-xs font-semibold transition-all shrink-0 shadow-xs"
         >
-          <GraduationCap className="w-4 h-4 text-emerald-400" />
-          <span>Role Study Materials &rarr;</span>
+          <GraduationCap className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+          <span>Role Cheat Sheets &rarr;</span>
         </Link>
       </div>
 
-      {/* Role Track Switcher */}
-      <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <span className="text-xs uppercase font-bold text-slate-300 flex items-center gap-1.5">
-            <Target className="w-3.5 h-3.5 text-indigo-400" />
-            Active Role Curriculum: <strong>{selectedRoleTrack}</strong>
+      {/* Role Track Switcher Card */}
+      <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs space-y-3">
+        <div className="flex items-center justify-between flex-wrap gap-2 text-xs">
+          <span className="font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-1.5">
+            <Target className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+            Active Role: <strong className="text-zinc-900 dark:text-zinc-100">{selectedRoleTrack}</strong>
           </span>
-          <span className="text-xs text-slate-400">
-            Switch track to align sprints with specific drives
+          <span className="text-zinc-500 dark:text-zinc-400 text-[11px]">
+            {completedCount} of 14 Sprints Completed
           </span>
         </div>
 
@@ -83,10 +83,10 @@ export default function RoadmapPage() {
               key={role}
               type="button"
               onClick={() => handleTrackChange(role)}
-              className={`text-xs px-3 py-1.5 rounded-xl border font-bold transition-all shrink-0 ${
+              className={`text-xs px-3 py-1.5 rounded-xl border font-medium transition-all shrink-0 cursor-pointer ${
                 selectedRoleTrack === role
-                  ? 'bg-indigo-600 text-white border-indigo-500 shadow-sm'
-                  : 'bg-slate-950 text-slate-400 border-slate-800 hover:text-slate-200'
+                  ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 border-zinc-900 dark:border-zinc-100 shadow-xs font-semibold'
+                  : 'bg-zinc-50 dark:bg-zinc-950 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100'
               }`}
             >
               {role}
@@ -95,121 +95,82 @@ export default function RoadmapPage() {
         </div>
       </div>
 
-      {/* Progress & Legend Ribbon */}
-      <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between flex-wrap gap-3 text-xs">
-        <div className="flex items-center gap-2 text-slate-300">
-          <TrendingUp className="w-4 h-4 text-emerald-400" />
-          <span>Current Target: <strong>Day 1 (Ready to Code)</strong></span>
-        </div>
-        <div className="flex items-center gap-4 text-slate-400 font-medium">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" /> Completed (+10%)
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse" /> Active Today
-          </span>
-          <span className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-700" /> Locked
-          </span>
-        </div>
-      </div>
-
-      {/* Vertical 14-Day Timeline */}
-      <div className="relative pl-6 sm:pl-8 space-y-4 before:absolute before:left-2.5 sm:before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-800">
-        {sprintDays.map((day) => {
-          const isCompleted = day.status === 'completed';
-          const isInProgress = day.status === 'in_progress';
-          const isLocked = day.status === 'locked';
+      {/* 14 Days List */}
+      <div className="space-y-3">
+        {sprintDays.map((sprint) => {
+          const isCompleted = sprint.status === 'completed';
+          const isInProgress = sprint.status === 'in_progress';
+          const isLocked = sprint.status === 'locked';
 
           return (
-            <div key={day.id} className="relative group">
-              {/* Timeline Node Icon */}
-              <div className={`absolute -left-6 sm:-left-8 top-4 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${
+            <div
+              key={sprint.id}
+              className={`p-4 sm:p-5 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                 isCompleted
-                  ? 'bg-emerald-500 border-emerald-400 text-white'
+                  ? 'bg-white dark:bg-zinc-900/90 border-emerald-200/80 dark:border-emerald-900/60 shadow-xs'
                   : isInProgress
-                  ? 'bg-indigo-600 border-indigo-400 text-white shadow-sm'
-                  : 'bg-slate-900 border-slate-700 text-slate-400'
-              }`}>
-                {isCompleted ? (
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                ) : isInProgress ? (
-                  <div className="w-2 h-2 rounded-full bg-white animate-ping" />
-                ) : (
-                  <Lock className="w-2.5 h-2.5 text-slate-400" />
-                )}
+                  ? 'bg-white dark:bg-zinc-900 border-indigo-300 dark:border-indigo-700 ring-1 ring-indigo-400/20 shadow-xs tactile-card'
+                  : 'bg-zinc-50/60 dark:bg-zinc-950/40 border-zinc-200/70 dark:border-zinc-800/60 opacity-80'
+              }`}
+            >
+              <div className="flex items-start sm:items-center gap-3.5">
+                {/* State Badge Icon */}
+                <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 font-bold text-xs ${
+                  isCompleted
+                    ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800'
+                    : isInProgress
+                    ? 'bg-indigo-600 text-white shadow-xs'
+                    : 'bg-zinc-200 dark:bg-zinc-800 text-zinc-400'
+                }`}>
+                  {isCompleted ? (
+                    <CheckCircle2 className="w-5 h-5" />
+                  ) : isLocked ? (
+                    <Lock className="w-4 h-4" />
+                  ) : (
+                    <span>{sprint.id}</span>
+                  )}
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                    <span className="text-xs font-bold text-zinc-900 dark:text-zinc-50">
+                      Day {sprint.id}: {sprint.title}
+                    </span>
+                    <span className="text-[10px] px-2 py-0.2 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 font-medium">
+                      {sprint.dayCategory}
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400 line-clamp-1">
+                    {sprint.subtitle}
+                  </p>
+                </div>
               </div>
 
-              {/* Day Milestone Card */}
-              <Link
-                href={`/dashboard/practice/${day.id}`}
-                className={`block p-4 sm:p-5 rounded-2xl border transition-all ${
-                  isInProgress
-                    ? 'bg-slate-900/90 border-indigo-500/50 shadow-md ring-1 ring-indigo-500/30'
-                    : isCompleted
-                    ? 'bg-slate-900/70 border-emerald-500/30 hover:border-emerald-500/50'
-                    : 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
-                }`}
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-bold ${
+              {/* Action Button */}
+              <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-zinc-100 dark:border-zinc-800">
+                <span className="text-xs text-zinc-500 dark:text-zinc-400 flex items-center gap-1 font-medium">
+                  <Clock className="w-3.5 h-3.5 text-zinc-400" />
+                  {sprint.estimatedTime}
+                </span>
+
+                {isLocked ? (
+                  <span className="text-xs text-zinc-400 font-medium px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 cursor-not-allowed">
+                    Locked
+                  </span>
+                ) : (
+                  <Link
+                    href={`/dashboard/practice/${sprint.id}`}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                       isInProgress
-                        ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                        : isCompleted
-                        ? 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20'
-                        : 'bg-slate-800 text-slate-400'
-                    }`}>
-                      Day {day.id}
-                    </span>
-
-                    <span className="text-[11px] px-2 py-0.5 rounded-md bg-slate-800/80 text-slate-300 font-medium">
-                      {day.dayCategory}
-                    </span>
-
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-slate-400" />
-                      {day.estimatedTime}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-xs">
-                    {isCompleted && (
-                      <span className="text-emerald-400 font-bold flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        +{day.earnedVelocity || 10}% Velocity
-                      </span>
-                    )}
-                    {isInProgress && (
-                      <span className="text-indigo-400 font-bold animate-pulse">
-                        Open Sandbox &rarr;
-                      </span>
-                    )}
-                    {isLocked && (
-                      <span className="text-slate-500">
-                        Unlocks after Day {day.id - 1}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <h3 className="text-sm sm:text-base font-bold text-slate-100 group-hover:text-indigo-300 transition-colors">
-                  {day.title}
-                </h3>
-                <p className="text-xs text-slate-400 mt-1 line-clamp-2 leading-relaxed">
-                  {day.subtitle}
-                </p>
-
-                <div className="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-                  <span className="text-[11px] truncate max-w-md">
-                    Coding Challenge: <strong>{day.practice.problemTitle}</strong>
-                  </span>
-                  <span className="text-indigo-400 font-bold inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                    <span>Practice Sandbox</span>
+                        ? 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs'
+                        : 'bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300'
+                    }`}
+                  >
+                    <span>{isCompleted ? 'Review' : 'Start Day ' + sprint.id}</span>
                     <ChevronRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
-              </Link>
+                  </Link>
+                )}
+              </div>
             </div>
           );
         })}

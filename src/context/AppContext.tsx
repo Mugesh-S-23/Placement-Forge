@@ -97,12 +97,12 @@ const INITIAL_CHAT_MESSAGES: ChatMessage[] = [
   {
     id: 'msg-init-1',
     sender: 'forgebot',
-    text: "Vanakkam! I'm ForgeBot, your 24/7 Placement Operating System mentor for all engineering & campus departments. Whether you're in ECE, Mech, Civil, Biotech, or CS, ask me about campus drive patterns (TCS, Zoho, CTS, Infosys), interview corporate pivots, or study materials!",
+    text: "Vanakkam! I'm your Placement Cell Mentor Desk counselor. Whether you're in ECE, Mech, Civil, Biotech, or CS, feel free to ask about campus drive patterns (TCS, Zoho, CTS, Infosys), interview phrasing tips, explaining gaps, or study materials!",
     timestamp: "Just now",
     suggestedQuestions: [
-      "What to prepare for TCS NQT Round 1?",
-      "How to introduce myself as a non-CS student?",
-      "How to explain an academic gap in HR round?",
+      "I have a 1-year gap, how do I explain it to TCS HR?",
+      "I am from ECE/Mechanical, how do I answer 'Why IT?'",
+      "What are the common coding questions asked in Cognizant Round 1?",
       "Core ECE / Embedded interview questions",
       "Zoho round 2 programming pattern tips"
     ]
@@ -115,7 +115,7 @@ const LOCAL_STORAGE_KEY = 'placementforge_state_v2';
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserProfile>(DEFAULT_USER);
-  const [theme, setThemeState] = useState<ThemeMode>('dark');
+  const [theme, setThemeState] = useState<ThemeMode>('light');
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean>(true);
   const [scores, setScores] = useState(DEFAULT_SCORES);
@@ -152,12 +152,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   useEffect(() => {
     try {
       const savedTheme = localStorage.getItem('placementforge_theme') as ThemeMode;
-      if (savedTheme) {
-        setThemeState(savedTheme);
-        applyTheme(savedTheme);
-      } else {
-        applyTheme('dark');
-      }
+      const initialMode = savedTheme || 'light';
+      setThemeState(initialMode);
+      applyTheme(initialMode);
+
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleSystemChange = () => {
+        const cur = localStorage.getItem('placementforge_theme') as ThemeMode;
+        if (cur === 'system') {
+          applyTheme('system');
+        }
+      };
+      mediaQuery.addEventListener('change', handleSystemChange);
 
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
@@ -171,6 +177,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (parsed.isAuthenticated !== undefined) setIsAuthenticated(parsed.isAuthenticated);
         if (parsed.hasCompletedOnboarding !== undefined) setHasCompletedOnboarding(parsed.hasCompletedOnboarding);
       }
+      return () => {
+        mediaQuery.removeEventListener('change', handleSystemChange);
+      };
     } catch (e) {
       console.warn("Could not load from localStorage:", e);
     } finally {

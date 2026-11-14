@@ -4,17 +4,21 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
+import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 import { 
   Compass, 
   ArrowRight, 
   Sparkles, 
-  ShieldCheck, 
   TrendingUp, 
   Code2, 
   Mic2, 
   FileCheck2, 
   Zap,
-  Target
+  GraduationCap,
+  BookOpen,
+  CheckCircle2,
+  HeartHandshake,
+  Clock
 } from 'lucide-react';
 
 export default function RootPage() {
@@ -27,117 +31,190 @@ export default function RootPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="min-h-screen bg-[#fbfbfa] dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 flex flex-col justify-between transition-colors duration-200">
       
-      {/* Top clean header */}
-      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md px-6 py-4">
+      {/* 1. Top Announcement Bar */}
+      <div className="bg-zinc-900 text-zinc-300 text-xs py-2 px-4 sm:px-8 border-b border-zinc-800">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800 font-semibold text-[10px] uppercase tracking-wider">
+              Student Edition
+            </span>
+            <span className="text-zinc-400 hidden sm:inline text-xs">
+              A calm, guided path through campus drives and tech rounds. No panic, no cramming.
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4 text-xs font-medium">
+            <Link href="/login" className="text-zinc-400 hover:text-zinc-200 transition-colors hidden md:inline">
+              Student Sign In
+            </Link>
+            <span className="text-zinc-700 hidden md:inline">|</span>
+            <ThemeSwitcher />
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Main Navigation Header */}
+      <header className="border-b border-zinc-200/90 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-6 py-3.5 sticky top-0 z-40 transition-colors shadow-xs">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-600/20">
-              <Compass className="w-6 h-6" />
+            <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-xs">
+              <Compass className="w-5 h-5 text-white stroke-[2.2]" />
             </div>
             <div>
-              <span className="font-bold text-lg text-slate-100 tracking-tight">PlacementForge</span>
-              <span className="ml-2 text-[10px] px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 font-semibold uppercase">
-                Zero-to-Offer OS
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-lg text-zinc-900 dark:text-zinc-50 tracking-tight">
+                  Placement<span className="text-indigo-600 dark:text-indigo-400">Forge</span>
+                </span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700 font-semibold">
+                  Student Edition
+                </span>
+              </div>
+              <p className="text-[11px] text-zinc-500 dark:text-zinc-400 leading-none hidden sm:block">
+                Your Daily Placement Companion
+              </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <button
               onClick={handleInstantDemo}
-              className="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 text-xs font-semibold transition-colors hidden sm:inline-flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 text-xs font-semibold transition-all hidden sm:inline-flex items-center gap-1.5 cursor-pointer shadow-xs"
             >
-              <Zap className="w-3.5 h-3.5 text-indigo-400" />
-              Instant Demo
+              <Zap className="w-3.5 h-3.5 text-amber-500" />
+              <span>Instant Demo</span>
             </button>
             <Link
               href="/login"
-              className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors shadow-sm"
+              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-all shadow-xs hover:shadow-sm cursor-pointer"
             >
-              Get Started
+              Open Workspace
             </Link>
           </div>
         </div>
       </header>
 
-      {/* Hero section */}
-      <main className="max-w-5xl mx-auto px-6 py-16 sm:py-24 text-center">
-        {/* Velocity Pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-medium mb-6">
-          <TrendingUp className="w-3.5 h-3.5" />
-          <span>Non-judgmental assessment • Focused strictly on Personal Velocity</span>
+      {/* 3. Hero Section (Tactile, Linear / Notion Inspired) */}
+      <main className="max-w-5xl mx-auto px-6 py-14 sm:py-20 text-center">
+        
+        {/* Supportive Pill */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200/80 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 text-xs font-semibold mb-6 shadow-2xs">
+          <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+          <span>Zero Intimidation &bull; Real Student Sprints &bull; Your Progress (+14% this week)</span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-100 tracking-tight leading-tight sm:leading-none max-w-4xl mx-auto">
-          The Zero-to-Offer <br />
-          <span className="text-indigo-400">Placement Operating System</span>
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 dark:text-zinc-50 tracking-tight leading-tight sm:leading-none max-w-4xl mx-auto">
+          Let's get you placement-ready, <br />
+          <span className="text-indigo-600 dark:text-indigo-400">one day at a time.</span>
         </h1>
 
-        <p className="mt-6 text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-          Designed specifically for university students and non-CS branch switchers preparing for TCS, CTS, Infosys, Zoho, and campus SDE drives. Stop memorizing syntax—learn flow, master the corporate pivot, and track your readiness.
+        <p className="mt-5 text-sm sm:text-base text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto leading-relaxed">
+          Designed specifically for college students across ECE, Mechanical, Civil, Biotech, and CS branches. 25 minutes of structured, plain-English practice daily for TCS, Zoho, Cognizant, Infosys, and Tech SDE drives.
         </p>
 
-        {/* Primary Call to Action */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* Action CTAs */}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             href="/login"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition-all shadow-lg shadow-indigo-600/25 hover:shadow-indigo-600/40"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
-            <span>Start Free Calibration</span>
+            <span>Start Day 1 Practice</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
 
           <button
             onClick={handleInstantDemo}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-sm transition-colors"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-white dark:bg-zinc-900 hover:bg-zinc-50 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-zinc-200 font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
           >
-            <Zap className="w-4 h-4 text-emerald-400" />
-            <span>One-Click Guest Demo (Pre-Calibrated)</span>
+            <Zap className="w-4 h-4 text-amber-500" />
+            <span>Explore Demo (No Sign Up)</span>
           </button>
         </div>
 
-        {/* 4 Core Pillars Grid */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
+        {/* 4 Clean Practical Student Metrics Banner */}
+        <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3.5 max-w-4xl mx-auto text-left">
+          <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs">
+            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <Clock className="w-3.5 h-3.5 text-indigo-500" /> Daily Time
+            </span>
+            <p className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">25 Mins</p>
+            <p className="text-[11px] text-zinc-500 mt-0.5">Bite-sized daily tasks</p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs">
+            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-500" /> Weekly Gain
+            </span>
+            <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">+14% Velocity</p>
+            <p className="text-[11px] text-zinc-500 mt-0.5">Proven student growth</p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs">
+            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <HeartHandshake className="w-3.5 h-3.5 text-amber-500" /> Zero Jargon
+            </span>
+            <p className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">Plain English</p>
+            <p className="text-[11px] text-zinc-500 mt-0.5">+ Tanglish sticky notes</p>
+          </div>
+
+          <div className="p-4 rounded-xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs">
+            <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500" /> Day-1 Baseline
+            </span>
+            <p className="text-xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">20% Start</p>
+            <p className="text-[11px] text-zinc-500 mt-0.5">Zero penalty for beginners</p>
+          </div>
+        </div>
+
+        {/* 4 Practical Student Pillars Cards */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-4xl mx-auto">
           
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700 transition-colors">
-            <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-3">
-              <FileCheck2 className="w-5 h-5" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs tactile-card">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-3">
+              <Code2 className="w-4 h-4" />
             </div>
-            <h3 className="text-sm font-semibold text-slate-100">Reverse Resume</h3>
-            <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              No resume? Check basic things you've touched in labs or mini-projects to generate a Day-0 foundational profile.
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              1. 14-Day Micro-Sprint Sandbox
+            </h3>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+              Every day teaches one concept in plain English with everyday analogies, followed by an interactive code block with progressive hints ("Need a hint?", "Still stuck?", "Show solution").
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700 transition-colors">
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-3">
-              <TrendingUp className="w-5 h-5" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs tactile-card">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 flex items-center justify-center text-amber-600 dark:text-amber-400 mb-3">
+              <Mic2 className="w-4 h-4" />
             </div>
-            <h3 className="text-sm font-semibold text-slate-100">Readiness Radar</h3>
-            <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              4 clean axes (Logic, Core, Tech, Articulation) tracking personal velocity delta (+14%) rather than intimidating grades.
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              2. Adaptive Mock Interviewer &amp; Coach
+            </h3>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+              Polite interviewer questions with voice mic support. If you're stuck, it gently shifts to an encouraging Coach Note teaching you the exact corporate pivot phrase to use.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700 transition-colors">
-            <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-3">
-              <Code2 className="w-5 h-5" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs tactile-card">
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mb-3">
+              <FileCheck2 className="w-4 h-4" />
             </div>
-            <h3 className="text-sm font-semibold text-slate-100">14-Day Micro-Sprints</h3>
-            <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Learn (ELI5 + Tanglish tips), Practice (1 problem with 3 progressive hints), and Verify with instant AI evaluation.
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              3. Don't Have a Resume Yet?
+            </h3>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+              Tick what you've actually touched in college labs and coursework. We convert your practical experience into recruiter-ready bullet points with zero penalty.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-slate-900/80 border border-amber-500/20 bg-amber-500/5 hover:border-amber-500/40 transition-colors">
-            <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-3">
-              <Mic2 className="w-5 h-5" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-zinc-900 border border-zinc-200/90 dark:border-zinc-800 shadow-xs tactile-card">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-3">
+              <GraduationCap className="w-4 h-4" />
             </div>
-            <h3 className="text-sm font-semibold text-amber-200">Adaptive Mentor Mode</h3>
-            <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
-              Stuck or make a mistake? Shifts into warm amber mentor mode, teaches the corporate pivot phrase, and lets you retry.
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              4. Placement Cell Mentor Desk
+            </h3>
+            <p className="text-xs text-zinc-600 dark:text-zinc-400 mt-1 leading-relaxed">
+              Ask real campus questions: how to explain a 1-year gap to TCS HR, answering 'Why IT?' as an ECE/Mech student, or cracking Cognizant and Zoho round 2.
             </p>
           </div>
 
@@ -145,9 +222,9 @@ export default function RootPage() {
 
       </main>
 
-      {/* Clean footer */}
-      <footer className="border-t border-slate-900 py-6 text-center text-xs text-slate-400">
-        PlacementForge • Designed for campus placement readiness • Zero clutter, maximum velocity.
+      {/* 5. Clean Footer */}
+      <footer className="border-t border-zinc-200 dark:border-zinc-800 py-6 text-center text-xs text-zinc-500 dark:text-zinc-400">
+        <p>PlacementForge &bull; Made for engineering students preparing for campus placements.</p>
       </footer>
 
     </div>
